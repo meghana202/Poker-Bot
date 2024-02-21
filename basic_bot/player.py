@@ -94,6 +94,15 @@ class Player(Bot):
         legal_actions = round_state.legal_actions()
 
         my_cards = round_state.hands[active]
+        my_cards = list(map(eval7.Card, my_cards)) 
+
+'''
+        added_cards = my_cards[0].rank + my_cards[1].rank
+        threshold = 10
+        if added_cards > threshold:
+          return RaiseAction(5) '''
+
+        my_cards = round_state.hands[active]
         my_cards = list(map(eval7.Card, my_cards))
 
         if round_state.street == 0 and my_cards[0].rank == my_cards[1].rank:
