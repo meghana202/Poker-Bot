@@ -90,12 +90,12 @@ class Player(Bot):
         #my_cards = list(map(eval7.Card, my_cards)) 
 
         if street == 0:
-            if my_cards[0][0] == my_cards[1][0]: # Pair and Different Suit
-                actions, strength = self.card_analysis_preflop(my_cards)
-                for action in actions:
-                    if action in legal_actions:
-                        if action == RaiseAction:
-                            return RaiseAction(calculate_raise_size(strength, my_stack, bb_amount))
+            actions, strength = self.card_analysis_preflop(my_cards)
+            for action in actions:
+                if action in legal_actions:
+                    if action == RaiseAction:
+                        return RaiseAction(calculate_raise_size(strength, my_stack, bb_amount))
+                    return action()
 
         action = random.choice(tuple(legal_actions))
         
@@ -109,7 +109,7 @@ class Player(Bot):
         
         card1_rank, card2_rank= my_cards[0][0], my_cards[1][0]
         card1_suit, card2_suit = my_cards[0][1], my_cards[1][1]
-        ranks = {'A': 14, 'K': 13, 'Q': 12, 'J': 11, 'T': 10}  # Map ranks to numerical values
+        ranks = {'A': 14, 'K': 13, 'Q': 12, 'J': 11, 'T': 10}  
         premium_ranks = {'A', 'K', 'Q', 'J'}
 
         rank1 = ranks[card1_rank] if card1_rank in ranks else int(card1_rank)
