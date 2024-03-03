@@ -86,19 +86,15 @@ class Player(Bot):
 
         legal_actions = round_state.legal_actions()
         my_cards = round_state.hands[active]
-        print(my_cards)
-        #my_cards = list(map(eval7.Card, my_cards)) 
 
-        if street == 0:
-            actions, strength = self.card_analysis_preflop(my_cards)
-            for action in actions:
-                if action in legal_actions:
-                    if action == RaiseAction:
-                        return RaiseAction(calculate_raise_size(strength, my_stack, bb_amount))
-                    return action()
-
+        actions, strength = self.card_analysis_preflop(my_cards)
+        for action in actions:
+            if action in legal_actions:
+                if action == RaiseAction:
+                    return RaiseAction(str(calculate_raise_size(strength, my_stack, bb_amount)))
+                return action()
+            
         action = random.choice(tuple(legal_actions))
-        
         if action is RaiseAction:
             min_raise, max_raise = round_state.raise_bounds()
             bet_amt = random.randint(min_raise, max_raise)
@@ -131,9 +127,9 @@ class Player(Bot):
             hand_strength = "Playable"
 
         tiers_actions = {
-        "Premium": [RaiseAction],
-        "Very Strong": [RaiseAction],
-        "Strong": [RaiseAction, CallAction],
+        "Premium": [RaiseAction, CallAction, FoldAction],
+        "Very Strong": [RaiseAction, CallAction, FoldAction],
+        "Strong": [RaiseAction, CallAction, FoldAction],
         "Good": [RaiseAction, CallAction, FoldAction],
         "Playable":[CallAction, FoldAction]
         }
